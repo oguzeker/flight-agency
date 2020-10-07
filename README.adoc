@@ -51,9 +51,9 @@ On startup, the application populates the database with dummy data so as to make
 
 == Components
 
-Please note that `*Flight Agency Demo*` #is deployed to the cloud in the form of a Docker Swarm cluster#.
+*Please note that `*Flight Agency Demo*` *is deployed to the cloud in the form of a Docker Swarm cluster.*
 
-The application comprises of [underline]*six* main components. You can directly check each of them via the #links# below:
+The application comprises of [underline]*six* main components. *You can directly check each of them via the links below:*
 
 - http://45.55.53.91:8888/flight-agency-core.yml[`flight-agency-config-server`]
 - http://45.55.53.91:8886[`flight-agency-admin-server`]
