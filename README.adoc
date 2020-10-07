@@ -77,10 +77,8 @@ Extra interfaces:
 
 You can join the `*Postman Team*` via https://app.getpostman.com/join-team?invite_code=91b56dc12a1f28c3a76c7dc655a02253&ws=06fca326-b1de-4458-b2e8-ace0cb956c7d[this link].
 
-In case you encounter problems while joining, please check the following directory to reach exported `*Postman*` collections:
+In case you encounter problems while joining, please check link:/flight-agency-core/src/main/resources/postman[this folder] to reach exported `*Postman*` collections:
 
-  /flight-agency-core/src/main/resources/postman
+You can also check link:/flight-agency-core/src/test/java/com/finartz/technicaltask/flightagency[this folder] for unit tests.
 
-You can also check the following directory for unit tests.
 
-  /flight-agency-core/src/test/java/com/finartz/technicaltask/flightagency
