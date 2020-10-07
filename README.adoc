@@ -57,23 +57,23 @@ On startup, the application populates the database with dummy data so as to make
 
 This application comprises of *six* main components. *You can directly check each one of them via these links:*
 
-- http://45.55.53.91:8888/flight-agency-core.yml[`flight-agency-config-server`]
-- http://45.55.53.91:8886[`flight-agency-admin-server`]
+. http://45.55.53.91:8888/flight-agency-core.yml[`flight-agency-config-server`]
+. http://45.55.53.91:8886[`flight-agency-admin-server`]
 * _Due to a problem with network configuration on the remote machine, some applications appear as `DOWN`. Please ignore that. Those applications are in fact effectively `UP`._
-- http://45.55.53.91:1905/airport/1[`flight-agency-core`]
-- http://45.55.53.91:8761/[`flight-agency-eureka-server`]
-- http://45.55.53.91:8088/airport/1[`flight-agency-gateway-server`]
+. http://45.55.53.91:1905/airport/1[`flight-agency-core`]
+. http://45.55.53.91:8761/[`flight-agency-eureka-server`]
+. http://45.55.53.91:8088/airport/1[`flight-agency-gateway-server`]
 * Implements `circuit-breaker` / `fallback-method` mechanism
-- http://45.55.53.91:8884/hystrix/monitor?stream=http%3A%2F%2F45.55.53.91%3A8088%2Factuator%2Fhystrix.stream[`flight-agency-hystrix-dashboard`]
+. http://45.55.53.91:8884/hystrix/monitor?stream=http%3A%2F%2F45.55.53.91%3A8088%2Factuator%2Fhystrix.stream[`flight-agency-hystrix-dashboard`]
 
 === Extra Components
 
-- http://45.55.53.91:1905/h2-console/[`H2 Database Engine`]
+. http://45.55.53.91:1905/h2-console/[`H2 Database Engine`]
 * *JDBC URL:* jdbc:h2:mem:testdb
 * *Username:* h2
 * *Password:* 123
-- http://45.55.53.91:9411/zipkin/[`Zipkin`]
-- http://45.55.53.91:1905/swagger-ui.html[`Swagger`]
+. http://45.55.53.91:9411/zipkin/[`Zipkin`]
+. http://45.55.53.91:1905/swagger-ui.html[`Swagger`]
 
 == Testing
 
