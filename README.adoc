@@ -6,6 +6,10 @@
 :toclevels: 4
 :sectlinks:
 
+== * * *Please note that `Flight Agency Demo` is currently deployed to the cloud in the form of a `Docker Swarm` cluster.*
+
+You can directly access individual components of the cluster through the links in the <<components, Components>> section.
+
 == Summary
 
 This is a demo project implemented for `*Finartz*` interview rounds of *2020*. This is a just simple airline ticket sales application implemented only for demonstation purposes.
@@ -49,15 +53,13 @@ After that, run the following command to check and see the docker containers run
 
 On startup, the application populates the database with dummy data so as to make the demo application easier to test. Still, you can manually perform actions through the `Rest API`.
 
-== Components
+== Components[[components]]
 
-*Please note that `*Flight Agency Demo*` *is deployed to the cloud in the form of a Docker Swarm cluster.*
-
-The application comprises of [underline]*six* main components. *You can directly check each of them via the links below:*
+This application comprises of *six* main components. *You can directly check each one of them via these links:*
 
 - http://45.55.53.91:8888/flight-agency-core.yml[`flight-agency-config-server`]
 - http://45.55.53.91:8886[`flight-agency-admin-server`]
-* _Due to a problem with network configuration on the remote machine, some applications appear as `DOWN`. Please ignore. They are in fact effectively `UP`._
+* _Due to a problem with network configuration on the remote machine, some applications appear as `DOWN`. Please ignore that. Those applications are in fact effectively `UP`._
 - http://45.55.53.91:1905/airport/1[`flight-agency-core`]
 - http://45.55.53.91:8761/[`flight-agency-eureka-server`]
 - http://45.55.53.91:8088/airport/1[`flight-agency-gateway-server`]
