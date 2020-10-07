@@ -64,7 +64,7 @@ The application comprises of six main components. The database has already been 
 * Implements `circuit-breaker` / `fallback-method` mechanism
 - http://45.55.53.91:8884/hystrix/monitor?stream=http%3A%2F%2F45.55.53.91%3A8088%2Factuator%2Fhystrix.stream[`flight-agency-hystrix-dashboard`]
 
-Extra interfaces:
+=== Extra Components
 
 - http://45.55.53.91:1905/h2-console/[`H2 Database Engine`]
 * *JDBC URL:* jdbc:h2:mem:testdb
