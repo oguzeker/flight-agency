@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.finartz.technical-task</groupId>
+	<artifactId>flight-agency</artifactId>
+	<version>${revision}${sha1}${changelist}</version>
+	<packaging>pom</packaging>
+	<name>flight-agency</name>
+	<description>Finartz technical task assignment</description>
+
+	<developers>
+		<developer>
+			<id>oguzeker</id>
+			<name>Oguz Erhan Eker</name>
+			<email>eker.oguz@gmail.com</email>
+			<roles>
+				<role>
+					Software Engineer
+				</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<modules>
+		<module>flight-agency-core</module>
+		<module>flight-agency-eureka-server</module>
+        <module>flight-agency-config-server</module>
+		<module>flight-agency-admin-server</module>
+		<module>flight-agency-hystrix-dashboard</module>
+		<module>flight-agency-gateway-server</module>
+	</modules>
+
+	<properties>
+		<!-- RESERVED PROPERTIES : PLEASE-DO-NOT-RENAME -->
+		<revision>1.0.0</revision>
+		<sha1/>
+		<changelist>-SNAPSHOT</changelist>
+		<java.version>11</java.version>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<!-- CUSTOM PROPERTIES -->
+		<spring-boot.version>2.3.4.RELEASE</spring-boot.version>
+		<spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
+		<maven-flatten-plugin.version>1.2.1</maven-flatten-plugin.version>
+		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+		<swagger2.version>2.9.2</swagger2.version>
+		<modelmapper.version>2.3.8</modelmapper.version>
+		<logstash-logback.version>6.4</logstash-logback.version>
+		<lombok.version>1.18.12</lombok.version>
+		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+		<admin-starter-server.version>2.3.0</admin-starter-server.version>
+		<h2database.version>1.4.200</h2database.version>
+		<zipkin.version>2.12.9</zipkin.version>
+		<apache-commons-lang3.version>3.11</apache-commons-lang3.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- BASE POMS -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-parent</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.zipkin.java</groupId>
+				<artifactId>zipkin-server</artifactId>
+				<version>${zipkin.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.zipkin.java</groupId>
+				<artifactId>zipkin-autoconfigure-ui</artifactId>
+				<version>${zipkin.version}</version>
+			</dependency>
+
+			<!-- MODULES -->
+			<dependency>
+				<groupId>com.finartz.technical-task</groupId>
+				<artifactId>flight-agency-eureka-server</artifactId>
+				<version>${revision}${sha1}${changelist}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.finartz.technical-task</groupId>
+				<artifactId>flight-agency-core</artifactId>
+				<version>${revision}${sha1}${changelist}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.finartz.technical-task</groupId>
+				<artifactId>flight-agency-config-server</artifactId>
+				<version>${revision}${sha1}${changelist}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.finartz.technical-task</groupId>
+				<artifactId>flight-agency-eureka-server</artifactId>
+				<version>${revision}${sha1}${changelist}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-server</artifactId>
+				<version>${admin-starter-server.version}</version>
+			</dependency>
+
+			<!-- EXTRAS -->
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${swagger2.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${swagger2.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-bean-validators</artifactId>
+				<version>${swagger2.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.modelmapper</groupId>
+				<artifactId>modelmapper</artifactId>
+				<version>${modelmapper.version}</version>
+			</dependency>
+<!--			<dependency>-->
+<!--				<groupId>com.fasterxml.jackson.core</groupId>-->
+<!--				<artifactId>jackson-databind</artifactId>-->
+<!--				<version>2.10.0.pr3</version>-->
+<!--			</dependency>-->
+			<dependency>
+				<groupId>net.logstash.logback</groupId>
+				<artifactId>logstash-logback-encoder</artifactId>
+				<version>${logstash-logback.version}</version>
+			</dependency>
+<!--			<dependency>-->
+<!--				<groupId>com.fasterxml.jackson.datatype</groupId>-->
+<!--				<artifactId>jackson-datatype-jsr310</artifactId>-->
+<!--				<version>2.11.2</version>-->
+<!--			</dependency>-->
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>${h2database.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${apache-commons-lang3.version}</version>
+			</dependency>
+
+			<!-- OPTIONAL -->
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<optional>true</optional>
+			</dependency>
+
+			<!-- TEST -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-test</artifactId>
+				<version>${spring-boot.version}</version>
+				<scope>test</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>org.junit.vintage</groupId>
+						<artifactId>junit-vintage-engine</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring-boot.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<version>${maven-flatten-plugin.version}</version>
+				<configuration>
+					<flattenMode>resolveCiFriendliesOnly</flattenMode>
+					<updatePomFile>true</updatePomFile>
+				</configuration>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>flatten.clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

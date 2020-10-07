@@ -1,0 +1,65 @@
+server:
+  port: ${GATEWAY_SERVER_PORT:8088}
+
+spring:
+  boot:
+    admin:
+      client:
+        url: ${ADMIN_SERVER_URL:http://localhost:8886}
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - UPDATE
+      discovery.locator:
+        enabled: true
+        lowerCaseServiceId: true
+      routes:
+        - id: flight-agency-core-airline
+          uri: lb://FLIGHT-AGENCY-CORE
+          predicates:
+            - Path=/airline/**,/airport/**,/flight/**,=/route/**,/ticket/**
+          filters:
+            - name: Hystrix
+              args:
+                name: Flight Agency Core Controller
+                fallbackUri: forward:/fallback/message
+
+management:
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+eureka:
+  instance:
+    preferIpAddress: false
+    leaseRenewalIntervalInSeconds: 20
+    health-check-url-path: /actuator/health
+    metadata-map:
+      startup: ${random.int}
+  client:
+    registryFetchIntervalSeconds: 20
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
+
+logging:
+  level:
+    ROOT: INFO
+  file:
+    max-history: 0
+    max-size: 1GB
+default:
+  locale: en_US

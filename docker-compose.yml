@@ -1,0 +1,122 @@
+version: "3.8"
+
+services:
+   flight-agency-config-server:
+      image: flight-agency-config-server
+      build: ./flight-agency-config-server
+      container_name: flight-agency-config-server
+      restart: always
+      ports:
+         - '8888:8888'
+      environment:
+         CONFIG_SERVER_PORT: 8888
+         EUREKA_SERVER_URL: http://flight-agency-eureka-server:8761/eureka/
+      deploy:
+         replicas: 1
+
+   flight-agency-eureka-server:
+      image: flight-agency-eureka-server
+      build: ./flight-agency-eureka-server
+      container_name: flight-agency-eureka-server
+      restart: always
+      ports:
+         - "8761:8761"
+      environment:
+         CONFIG_SERVER_URL: http://flight-agency-config-server:8888
+         EUREKA_SERVER_PORT: 8761
+         EUREKA_SERVER_URL: http://flight-agency-eureka-server:8761/eureka/
+         EUREKA_SERVER_HOST: flight-agency-eureka-server
+         ADMIN_SERVER_URL: http://flight-agency-admin-server:8886
+         ZIPKIN_SERVER_URL: http://flight-agency-zipkin-server:9411
+      depends_on:
+         - flight-agency-config-server
+         - flight-agency-zipkin-server
+      deploy:
+         replicas: 1
+      entrypoint: ["sh", "-c", "dockerize -wait tcp://flight-agency-config-server:8888 -timeout 1500s -wait-retry-interval 20s java -Djava.security.egd=file:/dev/./urandom -jar flight-agency-eureka-server-1.0.0-SNAPSHOT.jar"]
+
+   flight-agency-admin-server:
+      image: flight-agency-admin-server
+      build: ./flight-agency-admin-server
+      container_name: flight-agency-admin-server
+      restart: always
+      ports:
+         - '8886:8886'
+      environment:
+         CONFIG_SERVER_URL: http://flight-agency-config-server:8888
+         EUREKA_SERVER_URL: http://flight-agency-eureka-server:8761/eureka/
+         ADMIN_SERVER_PORT: 8886
+      depends_on:
+         - flight-agency-config-server
+         - flight-agency-eureka-server
+      deploy:
+         replicas: 1
+      entrypoint: ["sh", "-c", "dockerize -wait tcp://flight-agency-config-server:8888 -wait tcp://flight-agency-eureka-server:8761/eureka -timeout 1500s -wait-retry-interval 20s java -Djava.security.egd=file:/dev/./urandom -jar flight-agency-admin-server-1.0.0-SNAPSHOT.jar"]
+
+   flight-agency-zipkin-server:
+      image: openzipkin/zipkin:2.21.7
+      container_name: flight-agency-zipkin-server
+      restart: always
+      ports:
+         - '9411:9411'
+      environment:
+         ZIPKIN_SERVER_PORT: 9411
+         ADMIN_SERVER_URL: http://flight-agency-admin-server:8886
+         EUREKA_SERVER_URL: http://flight-agency-eureka-server:8761/eureka/
+      deploy:
+         replicas: 1
+
+   flight-agency-core:
+      image: flight-agency-core
+      build: ./flight-agency-core
+      container_name: flight-agency-core
+      ports:
+         - "1905:1905"
+      environment:
+         CONFIG_SERVER_URL: http://flight-agency-config-server:8888
+         EUREKA_SERVER_URL: http://flight-agency-eureka-server:8761/eureka/
+         ADMIN_SERVER_URL: http://flight-agency-admin-server:8886
+         ZIPKIN_SERVER_URL: http://flight-agency-zipkin-server:9411
+         CORE_PORT: 1905
+         CORE_H2_USERNAME: h2
+         CORE_H2_PASSWORD: 123
+      depends_on:
+         - flight-agency-config-server
+         - flight-agency-zipkin-server
+         - flight-agency-eureka-server
+         - flight-agency-admin-server
+      deploy:
+         replicas: 1
+      entrypoint: ["sh", "-c", "dockerize -wait tcp://flight-agency-config-server:8888 -wait tcp://flight-agency-zipkin-server:9411 -wait tcp://flight-agency-eureka-server:8761 -wait tcp://flight-agency-admin-server:8886 -timeout 1500s -wait-retry-interval 20s java -Djava.security.egd=file:/dev/./urandom -jar flight-agency-core-1.0.0-SNAPSHOT.jar"]
+
+   flight-agency-hystrix-dashboard:
+      image: flight-agency-hystrix-dashboard
+      build: ./flight-agency-hystrix-dashboard
+      container_name: flight-agency-hystrix-dashboard
+      ports:
+         - "8884:8884"
+      environment:
+         CONFIG_SERVER_URL: http://flight-agency-config-server:8888
+         HYSTRIX_PORT: 8884
+         ADMIN_SERVER_URL: http://flight-agency-admin-server:8886
+         EUREKA_SERVER_URL: http://flight-agency-eureka-server:8761/eureka/
+      deploy:
+         replicas: 1
+      entrypoint: ["sh", "-c", "dockerize -wait tcp://flight-agency-config-server:8888 -wait tcp://flight-agency-eureka-server:8761 -timeout 1500s -wait-retry-interval 20s java -Djava.security.egd=file:/dev/./urandom -jar flight-agency-hystrix-dashboard-1.0.0-SNAPSHOT.jar"]
+
+   flight-agency-gateway-server:
+      image: flight-agency-gateway-server
+      build: ./flight-agency-gateway-server
+      container_name: flight-agency-gateway-server
+      ports:
+         - "8088:8088"
+      environment:
+         CONFIG_SERVER_URL: http://flight-agency-config-server:8888
+         GATEWAY_SERVER_PORT: 8088
+         ADMIN_SERVER_URL: http://flight-agency-admin-server:8886
+         EUREKA_SERVER_URL: http://flight-agency-eureka-server:8761/eureka/
+      depends_on:
+         - flight-agency-hystrix-dashboard
+      deploy:
+         replicas: 1
+      entrypoint: [ "sh", "-c", "dockerize -wait tcp://flight-agency-config-server:8888 -wait tcp://flight-agency-eureka-server:8761 -timeout 1500s -wait-retry-interval 20s java -Djava.security.egd=file:/dev/./urandom -jar flight-agency-gateway-server-1.0.0-SNAPSHOT.jar" ]

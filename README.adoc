@@ -1,0 +1,86 @@
+= Flight Agency Demo Application
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+== Summary
+
+This is a demo project implemented for `*Finartz*` interview rounds of *2020*. This is a just simple airline ticket sales application implemented only for demonstation purposes.
+
+== Motivation
+
+This application is implemented to manage flight operations and to arrage ticket purchases.
+
+== Code style
+
+This project uses https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller[`Model-View-Controller`] pattern for the directory structure and resposibility distribution among layers of abstraction.
+
+We deliberately chose not to employ https://en.wikipedia.org/wiki/Entity-control-boundary[`Entity-Control-Boundary`] pattern for practicality.
+
+image:https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat[js-standard-style]
+
+== Tech/framework used
+
+Project built with the following:
+
+- https://www.oracle.com/java/technologies/javase-jdk11-downloads.html[Java 11]
+- https://spring.io/projects/spring-boot[Spring-Boot]
+- https://spring.io/projects/spring-cloud[Spring-Cloud]
+- https://www.h2database.com/html/main.html[H2 Database Engine]
+- https://maven.apache.org/[Maven]
+- https://www.docker.com/[Docker]
+
+Please make sure that you have your local environment set up properly before installation and use.
+
+== Installation
+
+To build and run the application, you need to run the following command at the root directory of the project:
+
+ docker-compose up -d
+
+After that, run the following command to check and see the docker containers running in the background.
+
+  docker ps
+
+== Basic Flow
+
+On startup, the application populates the database with dummy data so as to make the demo application easier to test. Still, you can manually perform actions through the `Rest API`.
+
+== Components
+
+`*Flight Agency Demo*` is currently deployed to the cloud in the form of a `*Docker Swarm*` cluster.
+
+The application comprises of six main components. The database has already been populated with test data. You can check each of them via the following links:
+
+- http://45.55.53.91:8888/flight-agency-core.yml[`flight-agency-config-server`]
+- http://45.55.53.91:8886[`flight-agency-admin-server`]
+* _Due to a problem with network configuration on the remote machine, some applications appear as `DOWN`. Please ignore. They are in fact effectively `UP`._
+- http://45.55.53.91:1905/airport/1[`flight-agency-core`]
+- http://45.55.53.91:8761/[`flight-agency-eureka-server`]
+- http://45.55.53.91:8088/airport/1[`flight-agency-gateway-server`]
+* Implements `circuit-breaker` / `fallback-method` mechanism
+- http://45.55.53.91:8884/hystrix/monitor?stream=http%3A%2F%2F45.55.53.91%3A8088%2Factuator%2Fhystrix.stream[`flight-agency-hystrix-dashboard`]
+
+Extra interfaces:
+
+- http://45.55.53.91:1905/h2-console/[`H2 Database Engine`]
+* *JDBC URL:* jdbc:h2:mem:testdb
+* *Username:* h2
+* *Password:* 123
+- http://45.55.53.91:9411/zipkin/[`Zipkin`]
+- http://45.55.53.91:1905/swagger-ui.html[`Swagger`]
+
+== Testing
+
+You can join the `*Postman Team*` via https://app.getpostman.com/join-team?invite_code=91b56dc12a1f28c3a76c7dc655a02253&ws=06fca326-b1de-4458-b2e8-ace0cb956c7d[this link].
+
+In case you encounter problems while joining, please check the following directory to reach exported `*Postman*` collections:
+
+  /flight-agency-core/src/main/resources/postman
+
+You can also check the following directory for unit tests.
+
+  /flight-agency-core/src/test/java/com/finartz/technicaltask/flightagency
